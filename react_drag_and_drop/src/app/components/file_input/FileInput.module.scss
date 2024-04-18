@@ -1,0 +1,66 @@
+$gray-border: gray;
+$dropzone-border: rgb(189, 189, 189);
+$button-background-color: rgb(131, 131, 131);
+
+.imageInputContainer {
+    position: relative;
+}
+.imageDragPrompt {
+    display: none;
+}
+.imageDropZone {
+    display: block;
+    height: 6em;
+    width: 14em;
+    border: 1px solid $gray-border;
+    > * + * {
+        border-top: 1px solid $dropzone-border;
+    }
+}
+.imageDropZone_hover {
+    box-shadow: 0.2px 0.2px 5px 0.1px var(--backgrounds-hovers-green),
+        -0.2px -0.2px 5px 0.1px var(--backgrounds-hovers-green);
+    border: 1px solid transparent;
+}
+.filePreviewContainer {
+    display: flex;
+    padding: 0.25em 0.75em;
+    align-items: center;
+}
+.filePreview {
+    display: inline-block;
+}
+.imageDragPrompt {
+    display: block;
+    text-align: center;
+    padding: 2.25em 0;
+}
+.removeFileButton {
+    line-height: 0.75;
+    padding: 0;
+    margin-left: auto;
+    color: $button-background-color;
+    border: none;
+    background-color: white;
+    &:hover {
+        cursor: pointer;
+        color: black;
+    }
+}
+.imageErrorMsg {
+    position: absolute;
+    font-size: 0.85rem;
+    left: -1em;
+    width: 13em;
+}
+.imageInputLabel {
+    display: block;
+    padding: 0.5em 0;
+    width: 7.65em;
+    margin: 1.75em auto 0;
+}
+.removeImageButton {
+    display: block;
+    width: 7em;
+    margin: 0.5em auto;
+}
