@@ -31,7 +31,7 @@ export default function FileInput({ imageArray, processAddImages, removeImage }:
             setErrorObj(v => ({...v, numberExceededError: true}));
         } else {
             const transferFile: File[] = Array.from(e.dataTransfer.files);
-            const formatError = checkFileExt(transferFile); // accept attribute won't work for drop zone
+            const formatError = checkIfImage(transferFile); // accept attribute won't work for drop zone
             const sizeError = checkFileSize(transferFile);
             if (!formatError && !sizeError) {
                 processAddImages(transferFile);
@@ -45,7 +45,7 @@ export default function FileInput({ imageArray, processAddImages, removeImage }:
         setHoverClass(false);
     }
 
-    function checkFileExt(files: File[]) {
+    function checkIfImage(files: File[]) {
         // Superficial client-side validation
         for (let file of files) {
             if (file.type.split('/')[0] == 'image') {
