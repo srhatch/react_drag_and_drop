@@ -1,13 +1,13 @@
 'use client';
 import styles from './FileInput.module.scss';
 import { useState, useRef } from 'react';
-import { ErrorObject, ImageInputProps, FormValues } from '../../../types/interfaces';
+import { ErrorObject, ImageInputProps } from '../../../types/interfaces';
 
 export default function FileInput({ imageArray, processAddImages, removeImage }: ImageInputProps) {
     const [hoverClass, setHoverClass] = useState(false);
     const [errorObj, setErrorObj] = useState<ErrorObject>({});
     const imageInputRef = useRef<HTMLInputElement>(null);
-console.log(imageArray)
+
     function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
         if (imageArray && imageArray.length > 2) {
             setErrorObj(v => ({...v, numberExceededError: true}));
@@ -30,7 +30,7 @@ console.log(imageArray)
         if (imageArray && imageArray.length > 2) {
             setErrorObj(v => ({...v, numberExceededError: true}));
         } else {
-            const transferFile = Array.from(e.dataTransfer.files);
+            const transferFile: File[] = Array.from(e.dataTransfer.files);
             const formatError = checkFileExt(transferFile); // accept attribute won't work for drop zone
             const sizeError = checkSize(transferFile);
             if (!formatError && !sizeError) {
