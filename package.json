@@ -1,0 +1,19 @@
+{
+  "name": "react_drag_and_drop",
+  "version": "1.0.0",
+  "description": "A drag and drop image upload component",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/s-hatch/react_drag_and_drop.git"
+  },
+  "author": "Sam Hatch",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/s-hatch/react_drag_and_drop/issues"
+  },
+  "homepage": "https://github.com/s-hatch/react_drag_and_drop#readme"
+}
