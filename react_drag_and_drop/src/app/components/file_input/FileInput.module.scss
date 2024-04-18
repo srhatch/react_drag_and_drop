@@ -1,6 +1,7 @@
 $gray-border: gray;
 $dropzone-border: rgb(189, 189, 189);
 $button-background-color: rgb(131, 131, 131);
+$hover-blue: rgb(31, 31, 253);
 
 .imageInputContainer {
     position: relative;
@@ -12,14 +13,15 @@ $button-background-color: rgb(131, 131, 131);
     display: block;
     height: 6em;
     width: 14em;
+    margin: 4em auto 2em;
     border: 1px solid $gray-border;
     > * + * {
         border-top: 1px solid $dropzone-border;
     }
 }
 .imageDropZone_hover {
-    box-shadow: 0.2px 0.2px 5px 0.1px var(--backgrounds-hovers-green),
-        -0.2px -0.2px 5px 0.1px var(--backgrounds-hovers-green);
+    box-shadow: 0.2px 0.2px 5px 0.1px $hover-blue,
+        -0.2px -0.2px 5px 0.1px $hover-blue;
     border: 1px solid transparent;
 }
 .filePreviewContainer {
