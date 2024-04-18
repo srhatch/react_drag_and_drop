@@ -1,13 +1,13 @@
 'use client';
 import styles from './FileInput.module.scss';
 import { useState, useRef } from 'react';
-import { ErrorObject, FileInputProps, FormValues } from '../../../types/interfaces';
+import { ErrorObject, ImageInputProps, FormValues } from '../../../types/interfaces';
 
-export default function FileInput({ imageArray, setImageArray }: FileInputProps) {
+export default function FileInput({ imageArray, processAddImages, removeImage }: ImageInputProps) {
     const [hoverClass, setHoverClass] = useState(false);
     const [errorObj, setErrorObj] = useState<ErrorObject>({});
     const imageInputRef = useRef<HTMLInputElement>(null);
-
+console.log(imageArray)
     function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
         if (imageArray && imageArray.length > 2) {
             setErrorObj(v => ({...v, numberExceededError: true}));
@@ -16,9 +16,7 @@ export default function FileInput({ imageArray, setImageArray }: FileInputProps)
                 const inputFileArray: File[] = Array.from(e.target.files);
                 const sizeError = checkSize(inputFileArray);
                 if (!sizeError) {
-                    setImageArray((formValues: FormValues) => (
-                        {...formValues, images: [...formValues.images, ...inputFileArray]}
-                    ));
+                    processAddImages(inputFileArray);
                     setErrorObj({});
                 } else if (sizeError) {
                     setErrorObj((v) => {return {...v, sizeError}});
@@ -36,9 +34,7 @@ export default function FileInput({ imageArray, setImageArray }: FileInputProps)
             const formatError = checkFileExt(transferFile); // accept attribute won't work for drop zone
             const sizeError = checkSize(transferFile);
             if (!formatError && !sizeError) {
-                setImageArray((formValues: FormValues) => (
-                    {...formValues, images: [...formValues.images, ...transferFile]}
-                ));
+                processAddImages(transferFile);
                 setErrorObj({});
             } else if (sizeError) {
                 setErrorObj((v) => {return {...v, sizeError}});
@@ -71,13 +67,6 @@ export default function FileInput({ imageArray, setImageArray }: FileInputProps)
         }
     }
 
-    function handleRemove(fileName: string) {
-        const filteredArray = imageArray?.filter(file => file.name !== fileName);
-        setImageArray((formValues: FormValues) => (
-            {...formValues, images: filteredArray}
-        ))
-    }
-
     return (
         <div className={styles.imageInputContainer}>
             <div
@@ -96,7 +85,7 @@ export default function FileInput({ imageArray, setImageArray }: FileInputProps)
                                     className={styles.removeFileButton}
                                     onClick={(e) => {
                                         e.preventDefault();
-                                        handleRemove(file.name);
+                                        removeImage(file.name);
                                     }}
                                 >&#10005;</button>
                             </div>
