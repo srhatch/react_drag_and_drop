@@ -4,21 +4,24 @@ export interface ErrorObject {
     sizeError?: boolean;
 }
 
+export interface UrlFile extends File {
+    // The objectUrl can be stored directly on the image File object
+    browserUrl?: string;
+}
+
 export interface ImageInputProps {
-    imageArray: File[] | undefined;
+    // For ImageInput component
+    imageArray: UrlFile[] | undefined;
     processAddImages: (imageArray: File[]) => void;
     removeImage: (imageFile: string) => void;
 }
 
 export interface ImageDisplayProps {
+    // For ImageDisplay component
     imageArray: UrlFile[];
 }
 
 export interface FormValues {
-    images: File[];
-}
-
-export interface UrlFile extends File {
-    // The objectUrl can be stored directly on the image File object
-    browserUrl?: string;
+    // State object for main Form component
+    images: UrlFile[];
 }
