@@ -14,7 +14,7 @@ export default function FileInput({ imageArray, processAddImages, removeImage }:
         } else {
             if (e.target.files) {
                 const inputFileArray: File[] = Array.from(e.target.files);
-                const sizeError = checkSize(inputFileArray);
+                const sizeError = checkFileSize(inputFileArray);
                 if (!sizeError) {
                     processAddImages(inputFileArray);
                     setErrorObj({});
@@ -32,7 +32,7 @@ export default function FileInput({ imageArray, processAddImages, removeImage }:
         } else {
             const transferFile: File[] = Array.from(e.dataTransfer.files);
             const formatError = checkFileExt(transferFile); // accept attribute won't work for drop zone
-            const sizeError = checkSize(transferFile);
+            const sizeError = checkFileSize(transferFile);
             if (!formatError && !sizeError) {
                 processAddImages(transferFile);
                 setErrorObj({});
@@ -56,10 +56,10 @@ export default function FileInput({ imageArray, processAddImages, removeImage }:
         }
     }
 
-    function checkSize(files: File[]) {
+    function checkFileSize(files: File[]) {
         // Superficial client-side validation
         for (let file of files) {
-            if (file.size > 2000000) {
+            if (file.size > 4000000) {
                 return true;
             } else {
                 return false;
