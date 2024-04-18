@@ -1,0 +1,12 @@
+.button {
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    background-color: lightblue;
+    border: solid transparent 1px;
+    border-radius: 0.3125em;
+    &:hover {
+        cursor: pointer;
+        border: 1px solid darkblue;
+    }
+}
