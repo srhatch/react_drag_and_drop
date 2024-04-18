@@ -1,6 +1,7 @@
 'use client';
 import styles from './FileInput.module.scss';
 import { useState, useRef } from 'react';
+import { checkIfImage, checkFileSize } from '../../../utilities/file_utils';
 import { ErrorObject, ImageInputProps } from '../../../types/interfaces';
 
 export default function FileInput({ imageArray, processAddImages, removeImage }: ImageInputProps) {
@@ -43,28 +44,6 @@ export default function FileInput({ imageArray, processAddImages, removeImage }:
             }
         }
         setHoverClass(false);
-    }
-
-    function checkIfImage(files: File[]) {
-        // Superficial client-side validation
-        for (let file of files) {
-            if (file.type.split('/')[0] == 'image') {
-                return false;
-            } else {
-                return true;
-            }
-        }
-    }
-
-    function checkFileSize(files: File[]) {
-        // Superficial client-side validation
-        for (let file of files) {
-            if (file.size > 4000000) {
-                return true;
-            } else {
-                return false;
-            }
-        }
     }
 
     return (
