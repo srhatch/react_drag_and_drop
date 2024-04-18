@@ -1,13 +1,17 @@
 .imageContainer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    min-height: 20em;
-    margin: 3em 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 20em);
+    grid-template-rows: none;
+    grid-auto-rows: 20em;
+    grid-gap: 2em;
+    justify-content: center;
+    width: 95%;
+    margin: 3em auto;
 }
 .listingPicContainer {
     height: max-content;
     align-self: center;
+    justify-self: center;
 }
 .listingPics {
     max-height: 20em;
