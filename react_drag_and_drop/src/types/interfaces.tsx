@@ -13,7 +13,7 @@ export interface ImageInputProps {
     // For ImageInput component
     imageArray: UrlFile[] | undefined;
     processAddImages: (imageArray: File[]) => void;
-    removeImage: (imageFile: string) => void;
+    removeImage: (imageFile: UrlFile) => void;
 }
 
 export interface ImageDisplayProps {
