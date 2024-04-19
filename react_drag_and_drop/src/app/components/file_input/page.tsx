@@ -64,7 +64,7 @@ export default function FileInput({ imageArray, processAddImages, removeImage }:
                                     className={styles.removeFileButton}
                                     onClick={(e) => {
                                         e.preventDefault();
-                                        removeImage(file.name);
+                                        removeImage(file);
                                     }}
                                 >&#10005;</button>
                             </div>
