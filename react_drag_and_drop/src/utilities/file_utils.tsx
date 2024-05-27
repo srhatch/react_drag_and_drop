@@ -1,21 +1,11 @@
 export function checkIfImage(files: File[]) {
     // Superficial client-side validation
-    for (let file of files) {
-        if (file.type.split('/')[0] == 'image') {
-            return false;
-        } else {
-            return true;
-        }
-    }
+    const areImages = files.every(file => file.type.split('/')[0] === 'image');
+    return areImages;
 }
 
 export function checkFileSize(files: File[]) {
     // Superficial client-side validation
-    for (let file of files) {
-        if (file.size > 4000000) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    const sizeOk = files.every(file => file.size < 4000000);
+    return sizeOk;
 }
