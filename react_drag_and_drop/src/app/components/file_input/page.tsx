@@ -15,12 +15,12 @@ export default function FileInput({ imageArray, processAddImages, removeImage }:
         } else {
             if (e.target.files) {
                 const inputFileArray: File[] = Array.from(e.target.files);
-                const sizeError = checkFileSize(inputFileArray);
-                if (!sizeError) {
+                const sizeValid = checkFileSize(inputFileArray);
+                if (sizeValid) {
                     processAddImages(inputFileArray);
                     setErrorObj({});
-                } else if (sizeError) {
-                    setErrorObj((v) => {return {...v, sizeError}});
+                } else if (!sizeValid) {
+                    setErrorObj((v) => {return {...v, sizeValid}});
                 }
             }
         }
@@ -32,15 +32,15 @@ export default function FileInput({ imageArray, processAddImages, removeImage }:
             setErrorObj(v => ({...v, numberExceededError: true}));
         } else {
             const transferFile: File[] = Array.from(e.dataTransfer.files);
-            const formatError = checkIfImage(transferFile); // accept attribute won't work for drop zone
-            const sizeError = checkFileSize(transferFile);
-            if (!formatError && !sizeError) {
+            const formatValid = checkIfImage(transferFile); // accept attribute won't work for drop zone
+            const sizeValid = checkFileSize(transferFile);
+            if (formatValid && sizeValid) {
                 processAddImages(transferFile);
                 setErrorObj({});
-            } else if (sizeError) {
-                setErrorObj((v) => {return {...v, sizeError}});
-            } else if (formatError) {
-                setErrorObj((v) => {return {...v, formatError}});                
+            } else if (!sizeValid) {
+                setErrorObj((v) => {return {...v, sizeValid}});
+            } else if (!formatValid) {
+                setErrorObj((v) => {return {...v, formatValid}});                
             }
         }
         setHoverClass(false);
@@ -49,6 +49,7 @@ export default function FileInput({ imageArray, processAddImages, removeImage }:
     return (
         <div className={styles.imageInputContainer}>
             <div
+                data-testid='dropZone'
                 className={hoverClass ? [ styles.imageDropZone, styles.imageDropZone_hover].join(' ') : styles.imageDropZone}
                 onDrop={handleDrop}
                 onDragOver={(e) => e.preventDefault()}
