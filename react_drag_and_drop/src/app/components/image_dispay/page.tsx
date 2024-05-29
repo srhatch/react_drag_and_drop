@@ -5,7 +5,7 @@ import { ImageDisplayProps } from '../../../types/interfaces';
 export default function ImageDisplay({ imageArray }: ImageDisplayProps) {
 
     return (
-        <div className={styles.imageContainer}>
+        <div data-testid='imageDisplay' className={styles.imageContainer}>
             {
                 imageArray?.map(file => (
                     <div className={styles.listingPicContainer} key={file.name}>
