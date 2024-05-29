@@ -10,17 +10,18 @@ export default function FileInput({ imageArray, processAddImages, removeImage }:
     const imageInputRef = useRef<HTMLInputElement>(null);
 
     function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-        if (imageArray && imageArray.length > 2) {
-            setErrorObj(v => ({...v, numberExceededError: true}));
-        } else {
-            if (e.target.files) {
+        const imageArrayLength = imageArray ? imageArray.length : 0;
+        if (e.target.files) {
+            if (e.target.files.length + imageArrayLength > 3) {
+                setErrorObj(v => ({...v, numberExceededError: true}));
+            } else {
                 const inputFileArray: File[] = Array.from(e.target.files);
                 const sizeValid = checkFileSize(inputFileArray);
                 if (sizeValid) {
                     processAddImages(inputFileArray);
                     setErrorObj({});
                 } else if (!sizeValid) {
-                    setErrorObj((v) => {return {...v, sizeValid}});
+                    setErrorObj((v) => {return {...v, sizeError: true}});
                 }
             }
         }
@@ -28,22 +29,23 @@ export default function FileInput({ imageArray, processAddImages, removeImage }:
 
     function handleDrop(e: React.DragEvent<HTMLDivElement>) {
         e.preventDefault();
-        if (imageArray && imageArray.length > 2) {
+        const imageArrayLength = imageArray ? imageArray.length : 0;
+        const transferFile: File[] = Array.from(e.dataTransfer.files);
+        if (transferFile.length + imageArrayLength > 3) {
             setErrorObj(v => ({...v, numberExceededError: true}));
         } else {
-            const transferFile: File[] = Array.from(e.dataTransfer.files);
             const formatValid = checkIfImage(transferFile); // accept attribute won't work for drop zone
             const sizeValid = checkFileSize(transferFile);
             if (formatValid && sizeValid) {
                 processAddImages(transferFile);
                 setErrorObj({});
             } else if (!sizeValid) {
-                setErrorObj((v) => {return {...v, sizeValid}});
+                setErrorObj((v) => {return {...v, sizeError: true}});
             } else if (!formatValid) {
-                setErrorObj((v) => {return {...v, formatValid}});                
+                setErrorObj((v) => {return {...v, formatError: true}});                
             }
+            setHoverClass(false);
         }
-        setHoverClass(false);
     }
 
     return (
