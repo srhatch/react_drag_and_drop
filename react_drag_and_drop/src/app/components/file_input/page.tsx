@@ -1,5 +1,6 @@
 'use client';
-import styles from './FileInput.module.scss';
+import gridStyles from '../../page.module.scss'; // Grid item rulesets are in the main file for better organization
+import fileInputStyles from './FileInput.module.scss';
 import { useState, useRef } from 'react';
 import { checkIfImage, checkFileSize } from '../../../utilities/file_utils';
 import { ErrorObject, ImageInputProps } from '../../../types/interfaces';
@@ -49,10 +50,10 @@ export default function FileInput({ imageArray, processAddImages, removeImage }:
     }
 
     return (
-        <div className={styles.imageInputContainer}>
+        <>
             <div
                 data-testid='dropZone'
-                className={hoverClass ? [ styles.imageDropZone, styles.imageDropZone_hover].join(' ') : styles.imageDropZone}
+                className={hoverClass ? [ gridStyles.imageDropZone, fileInputStyles.imageDropZone_hover].join(' ') : gridStyles.imageDropZone}
                 onDrop={handleDrop}
                 onDragOver={(e) => e.preventDefault()}
                 onDragEnter={() => {setHoverClass(true)}}
@@ -61,10 +62,10 @@ export default function FileInput({ imageArray, processAddImages, removeImage }:
                 {
                     imageArray?.map(file => {
                         return (
-                            <div className={styles.filePreviewContainer} key={file.name}>
-                                <div className={styles.filePreview}>{file.name}</div>
+                            <div className={fileInputStyles.filePreviewContainer} key={file.name}>
+                                <div className={fileInputStyles.filePreview}>{file.name}</div>
                                 <button
-                                    className={styles.removeFileButton}
+                                    className={fileInputStyles.removeFileButton}
                                     onClick={(e) => {
                                         e.preventDefault();
                                         removeImage(file);
@@ -76,25 +77,25 @@ export default function FileInput({ imageArray, processAddImages, removeImage }:
                 }
                 {
                     (!imageArray || imageArray?.length === 0) &&
-                    <div className={styles.imageDragPrompt}>Drag up to 3 photos here</div>
+                    <div className={fileInputStyles.imageDragPrompt}>Drag up to 3 photos here</div>
                 }
             </div>
-            {errorObj.formatError && <div className={styles.imageErrorMsg}>File must be an image</div>}
-            {errorObj.sizeError && <div className={styles.imageErrorMsg}>File must be less than 2MB</div>}
-            {errorObj.numberExceededError && <div className={styles.imageErrorMsg}>Only 3 images can be uploaded</div>}
-            <label htmlFor='imageInputId' className={['button', styles.imageInputLabel].join(' ')}>Select from files</label>
+            {errorObj.formatError && <div className={gridStyles.imageErrorMsg}>File must be an image</div>}
+            {errorObj.sizeError && <div className={gridStyles.imageErrorMsg}>File must be less than 2MB</div>}
+            {errorObj.numberExceededError && <div className={gridStyles.imageErrorMsg}>Only 3 images can be uploaded</div>}
+            <label htmlFor='imageInputId' className={['button', gridStyles.imageInputLabel].join(' ')}>Select from files</label>
             <input
                 type='file'
                 hidden={true}
                 ref={imageInputRef}
                 id='imageInputId'
-                className={styles.imageInput}
+                className={fileInputStyles.imageInput}
                 name='images'
                 accept='image/*, .jpeg, .jpg, .png'
                 multiple={true}
                 onChange={handleInputChange}
                 aria-invalid={errorObj?.formatError || errorObj?.sizeError || errorObj?.numberExceededError}
             />
-        </div>
+        </>
     )
 }
