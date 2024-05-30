@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { it, expect } from '@jest/globals';
 import { render, screen, fireEvent } from '@testing-library/react';
 import ImageForm from '../src/app/page';
@@ -46,7 +45,7 @@ it('displays an error message if file is too big', () => {
             files: [testJpegTooBig]
         }
     })
-    const errorMsg = screen.getByText('File must be less than 2MB');
+    const errorMsg = screen.getByText('File must be less than 4MB');
     expect(errorMsg).toBeInTheDocument();
 })
 it('displays an error message if file is not an image', () => {

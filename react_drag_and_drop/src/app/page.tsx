@@ -19,7 +19,7 @@ export default function ImageForm() {
   function processAddImages(imageArray: File[]) {
     const imageArrayUrls = imageArray.map((file: File) => {
       Object.defineProperty(file, 'browserUrl', {
-        value: URL.createObjectURL(file),
+        value: URL.createObjectURL(file), // Used in <img> tag to render the image
         enumerable: true
       });
       return file;
@@ -44,8 +44,7 @@ export default function ImageForm() {
       if (file.browserUrl) URL.revokeObjectURL(file.browserUrl)
     })
     const formData = formDataFromObject(formValues);
-    return formData;
-    //console.log([...formData]) // I changed the Typescript target to ES6 just to make displaying this easier by using the spread operator on FormData
+    console.log([...formData]) // I changed the Typescript target to ES6 just to make displaying this easier by using the spread operator on FormData
     // Fetch to API endpoint
   }
 

@@ -3,7 +3,7 @@ import styles from './ImageDisplay.module.scss';
 import { ImageDisplayProps } from '../../../types/interfaces';
 
 export default function ImageDisplay({ imageArray }: ImageDisplayProps) {
-
+    // Displays the actual image below the form
     return (
         <div data-testid='imageDisplay' className={styles.imageContainer}>
             {

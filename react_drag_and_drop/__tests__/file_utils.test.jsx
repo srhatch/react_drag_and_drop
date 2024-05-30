@@ -9,19 +9,23 @@ it('should return a boolean', () => {
     expect(typeof returnValue).toBe('boolean');
 })
 it('should return true', () => {
+    // For valid File objects
     const isImage = checkIfImage(fileArray);
     expect(isImage).toBe(true);
 })
 it ('should return false', () => {
+    // Including an invalid File object (File is not an image/* type)
     const fileArrayUpdated = fileArray.concat(generateTestFile('notAnImage', 'text/javascript'));
     const isImage = checkIfImage(fileArrayUpdated);
     expect(isImage).toBe(false);
 })
-it('should be true', () => {
+it('should return true', () => {
+    // For a valid file size
     const sizeOk = checkFileSize(fileArray);
     expect(sizeOk).toBe(true);
 })
-it ('should be false', () => {
+it ('should return false', () => {
+    // Includes a File that is too big
     const fileArrayUpdated = fileArray.concat(generateTestFile('iAmTooBig', 'image/jpeg', 4000001));
     const sizeOk = checkFileSize(fileArrayUpdated);
     expect(sizeOk).toBe(false);

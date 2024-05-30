@@ -14,12 +14,14 @@ export default function FileInput({ imageArray, processAddImages, removeImage }:
         const imageArrayLength = imageArray ? imageArray.length : 0;
         if (e.target.files) {
             if (e.target.files.length + imageArrayLength > 3) {
+                // Maximum of 3 images can be uploaded so check the number of images already loaded plus the number being uploaded
                 setErrorObj(v => ({...v, numberExceededError: true}));
             } else {
                 const inputFileArray: File[] = Array.from(e.target.files);
                 const sizeValid = checkFileSize(inputFileArray);
+                // Built in file picker can filter out non-image files by default
                 if (sizeValid) {
-                    processAddImages(inputFileArray);
+                    processAddImages(inputFileArray); // Adds to (parent) form component state
                     setErrorObj({});
                 } else if (!sizeValid) {
                     setErrorObj((v) => {return {...v, sizeError: true}});
@@ -35,7 +37,7 @@ export default function FileInput({ imageArray, processAddImages, removeImage }:
         if (transferFile.length + imageArrayLength > 3) {
             setErrorObj(v => ({...v, numberExceededError: true}));
         } else {
-            const formatValid = checkIfImage(transferFile); // accept attribute won't work for drop zone
+            const formatValid = checkIfImage(transferFile); // input's accept attribute won't work for drop zone
             const sizeValid = checkFileSize(transferFile);
             if (formatValid && sizeValid) {
                 processAddImages(transferFile);
@@ -50,6 +52,7 @@ export default function FileInput({ imageArray, processAddImages, removeImage }:
     }
 
     function handleInputKeyDown(e: React.KeyboardEvent<HTMLLabelElement>) {
+        // Make file picker open with enter key
         e.preventDefault();
         if (e.key === 'Enter') {
             (e.target as HTMLElement).click()
@@ -88,7 +91,7 @@ export default function FileInput({ imageArray, processAddImages, removeImage }:
                 }
             </div>
             {errorObj.formatError && <div className={gridStyles.imageErrorMsg}>File must be an image</div>}
-            {errorObj.sizeError && <div className={gridStyles.imageErrorMsg}>File must be less than 2MB</div>}
+            {errorObj.sizeError && <div className={gridStyles.imageErrorMsg}>File must be less than 4MB</div>}
             {errorObj.numberExceededError && <div className={gridStyles.imageErrorMsg}>Only 3 images can be uploaded</div>}
             <label
                 htmlFor='imageInputId'

@@ -1,4 +1,5 @@
 export default function generateTestFile(fileName, fileType, byteSize) {
+    // Create a File object for testing. byteSize is optional
     try {
         if (typeof fileName !== 'string') {
             throw new Error('TypeError: fileName must be a string');
