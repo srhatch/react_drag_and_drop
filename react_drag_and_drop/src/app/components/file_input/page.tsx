@@ -49,6 +49,13 @@ export default function FileInput({ imageArray, processAddImages, removeImage }:
         }
     }
 
+    function handleInputKeyDown(e: React.KeyboardEvent<HTMLLabelElement>) {
+        e.preventDefault();
+        if (e.key === 'Enter') {
+            (e.target as HTMLElement).click()
+        }
+    }
+
     return (
         <>
             <div
@@ -83,7 +90,12 @@ export default function FileInput({ imageArray, processAddImages, removeImage }:
             {errorObj.formatError && <div className={gridStyles.imageErrorMsg}>File must be an image</div>}
             {errorObj.sizeError && <div className={gridStyles.imageErrorMsg}>File must be less than 2MB</div>}
             {errorObj.numberExceededError && <div className={gridStyles.imageErrorMsg}>Only 3 images can be uploaded</div>}
-            <label htmlFor='imageInputId' className={['button', gridStyles.imageInputLabel].join(' ')}>Select from files</label>
+            <label
+                htmlFor='imageInputId'
+                className={['button', gridStyles.imageInputLabel].join(' ')}
+                tabIndex={0}
+                onKeyDown={handleInputKeyDown}
+            >Select from files</label>
             <input
                 type='file'
                 hidden={true}
