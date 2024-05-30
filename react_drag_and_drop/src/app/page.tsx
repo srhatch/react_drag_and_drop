@@ -44,13 +44,14 @@ export default function ImageForm() {
       if (file.browserUrl) URL.revokeObjectURL(file.browserUrl)
     })
     const formData = formDataFromObject(formValues);
-    console.log([...formData]) // I changed the Typescript target to ES6 just to make displaying this easier
+    return formData;
+    //console.log([...formData]) // I changed the Typescript target to ES6 just to make displaying this easier by using the spread operator on FormData
     // Fetch to API endpoint
   }
 
   return (
     <div className={styles.mainContainer}>
-      <form onSubmit={handleFormSubmit}>
+      <form className={styles.imageForm} onSubmit={handleFormSubmit}>
         <FileInput imageArray={formValues.images} processAddImages={processAddImages} removeImage={removeImage} />
         <input className={['button', styles.submitButton].join(' ')} type='submit' value='Submit' />
       </form>
