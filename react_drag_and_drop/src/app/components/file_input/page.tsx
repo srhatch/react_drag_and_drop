@@ -2,8 +2,8 @@
 import gridStyles from '../../page.module.scss'; // Grid item rulesets are in the main file for better organization
 import fileInputStyles from './FileInput.module.scss';
 import { useState, useRef } from 'react';
-import { checkIfImage, checkFileSize } from '../../../utilities/file_utils';
-import { ErrorObject, ImageInputProps } from '../../../types/interfaces';
+import { checkFileSize, checkIfImage } from '@/utilities/file_utils';
+import { ErrorObject, ImageInputProps } from '@/types/interfaces';
 
 export default function FileInput({ imageArray, processAddImages, removeImage }: ImageInputProps) {
     const [hoverClass, setHoverClass] = useState(false);
