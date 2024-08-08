@@ -1,7 +1,6 @@
 'use client';
 import styles from './ImageDisplay.module.scss';
 import { ImageDisplayProps } from '@/types/interfaces';
-import Image from 'next/image';
 
 export default function ImageDisplay({ imageArray }: ImageDisplayProps) {
     // Displays the actual image below the form
@@ -10,9 +9,9 @@ export default function ImageDisplay({ imageArray }: ImageDisplayProps) {
             {
                 imageArray?.map(file => (
                     <div className={styles.listingPicContainer} key={file.name}>
-                        <Image
+                        <img
                             className={styles.listingPics}
-                            src={file.browserUrl ?? ''}
+                            src={file.browserUrl}
                             alt=''
                         />
                     </div>
