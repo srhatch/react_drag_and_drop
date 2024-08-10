@@ -2,7 +2,7 @@
 import { useContext, useState, useRef } from 'react';
 import styles from './DropZone.module.scss';
 import { checkFileSize, checkIfImage } from '@/utilities/file_utils';
-import { DropZoneProps, UrlFile } from '@/types/interfaces';
+import { DropZoneProps, ErrorObject, UrlFile } from '@/types/interfaces';
 import { FormContext } from '../image_form/page';
 
 export default function DropZone({ setErrorObj }: DropZoneProps) {
@@ -21,15 +21,27 @@ export default function DropZone({ setErrorObj }: DropZoneProps) {
             const formatValid = checkIfImage(transferFile); // input's accept attribute won't work for drop zone
             const sizeValid = checkFileSize(transferFile);
             if (!sizeValid) {
-                setErrorObj((v) => {return {...v, sizeError: 'sizeError'}});
+                setErrorObj(v => {return {...v, sizeError: 'sizeError'}});
             } else if (!formatValid) {
-                setErrorObj((v) => {return {...v, formatError: 'formatError'}});
+                setErrorObj(v => {return {...v, formatError: 'formatError'}});
             } else {
                 context?.addImage(transferFile, context.slotsArray);
                 setErrorObj({});
             }
-            setHoverClass(false);
         }
+        setHoverClass(false);
+    }
+
+    function handleDeleteClick(
+        removeImage: (deleteFile: UrlFile) => void,
+        image: UrlFile,
+        setErrorObj: React.Dispatch<React.SetStateAction<ErrorObject>>
+    ): void {
+        removeImage(image);
+        setErrorObj((previousErrorObj) => {
+            previousErrorObj.numberExceededError = '';
+            return {...previousErrorObj};
+        })
     }
 
     return (
@@ -68,7 +80,7 @@ export default function DropZone({ setErrorObj }: DropZoneProps) {
                                     <button
                                         type='button'
                                         className={styles.removeFileButton}
-                                        onClick={(e) => context?.removeImage(imageArray[imageIndex])}
+                                        onClick={() => handleDeleteClick(context.removeImage, imageArray[imageIndex], setErrorObj)}
                                     >Remove image</button>
                                 </>
                                 :
