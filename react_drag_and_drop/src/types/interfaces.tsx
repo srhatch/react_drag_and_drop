@@ -8,6 +8,11 @@ export interface DropZoneProps {
     setErrorObj: React.Dispatch<React.SetStateAction<ErrorObject>>;
 }
 
+export interface ErrorMessageProps {
+    className: string;
+    errorObject: ErrorObject;
+}
+
 // Context interfaces
 export interface FormContextInterface {
     addImage: (imageArray: File[], slotsNumber: number[]) => void;
