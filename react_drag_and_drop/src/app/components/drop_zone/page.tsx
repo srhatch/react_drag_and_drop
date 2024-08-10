@@ -16,14 +16,14 @@ export default function DropZone({ setErrorObj }: DropZoneProps) {
         const numberOfImages = context?.numberOfImages || 0;
         const transferFile: File[] = Array.from(e.dataTransfer.files);
         if (transferFile.length + imageArrayLength > numberOfImages) {
-            setErrorObj(v => ({...v, numberExceededError: true}));
+            setErrorObj(v => ({...v, numberExceededError: 'numberExceededError'}));
         } else {
             const formatValid = checkIfImage(transferFile); // input's accept attribute won't work for drop zone
             const sizeValid = checkFileSize(transferFile);
             if (!sizeValid) {
-                setErrorObj((v) => {return {...v, sizeError: true}});
+                setErrorObj((v) => {return {...v, sizeError: 'sizeError'}});
             } else if (!formatValid) {
-                setErrorObj((v) => {return {...v, formatError: true}});
+                setErrorObj((v) => {return {...v, formatError: 'formatError'}});
             } else {
                 context?.addImage(transferFile, context.slotsArray);
                 setErrorObj({});

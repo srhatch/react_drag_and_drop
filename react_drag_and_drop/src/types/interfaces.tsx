@@ -25,9 +25,9 @@ export interface FormValues {
 
 // Other object interfaces
 export interface ErrorObject {
-    formatError?: boolean;
-    numberExceededError?: boolean;
-    sizeError?: boolean;
+    formatError?: string | undefined;
+    numberExceededError?: string | undefined;
+    sizeError?: string | undefined;
 }
 
 export interface UrlFile extends File {

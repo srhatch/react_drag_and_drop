@@ -18,13 +18,13 @@ export default function FileInput() {
         if (inputFiles) {
             if (inputFiles.length + imageArrayLength > numberOfImages) {
                 // Check the number of images already loaded plus the number being uploaded 
-                setErrorObj(v => ({...v, numberExceededError: true}));
+                setErrorObj(v => ({...v, numberExceededError: 'numberExceededErrpr'}));
             } else {
                 const inputFileArray: File[] = Array.from(inputFiles);
                 const sizeValid = checkFileSize(inputFileArray);
                 // Built in file picker can filter out non-image files by default
                 if (!sizeValid) {
-                    setErrorObj((v) => {return {...v, sizeError: true}});
+                    setErrorObj((v) => {return {...v, sizeError: 'sizeError'}});
                     return;
                 }
                 context?.addImage(inputFileArray, context.slotsArray); // Adds to (parent) form component state
@@ -44,15 +44,16 @@ export default function FileInput() {
     return (
         <>
             <DropZone setErrorObj={setErrorObj} />
-            {errorObj.formatError && <div className={gridStyles.imageErrorMsg}>File must be an image</div>}
-            {errorObj.sizeError && <div className={gridStyles.imageErrorMsg}>File must be less than 4MB</div>}
-            {errorObj.numberExceededError && <div className={gridStyles.imageErrorMsg}>Only 3 images can be uploaded</div>}
             <label
                 htmlFor='imageInputId'
                 className={['button', gridStyles.imageInputLabel].join(' ')}
                 tabIndex={0}
                 onKeyDown={handleInputKeyDown}
             >Select from files</label>
+            <ErrorMessage
+                errorFor={errorObj.formatError || errorObj.numberExceededError || errorObj.sizeError}
+                className={gridStyles.imageErrorMsg}
+            />
             <input
                 type='file'
                 hidden={true}
@@ -62,8 +63,32 @@ export default function FileInput() {
                 accept='image/*, .jpeg, .jpg, .png'
                 multiple={true}
                 onChange={handleInputChange}
-                aria-invalid={errorObj?.formatError || errorObj?.sizeError || errorObj?.numberExceededError}
+                aria-invalid={!!errorObj?.formatError || !!errorObj?.sizeError || !!errorObj?.numberExceededError}
             />
         </>
     )
+}
+
+interface Propss {
+    errorFor: string | undefined;
+    className: string;
+}
+export function ErrorMessage({errorFor, className}: Propss) {
+    const errorMsg = calcErrorMsg(errorFor || '');
+    return (
+        <div className={className}>{ errorMsg }</div>
+    )
+}
+
+function calcErrorMsg(errorFor: string) {
+    switch(errorFor) {
+        case 'formatError':
+            return 'File must be an image';
+        case 'sizeError':
+            return 'File must be less than 4MB';
+        case 'numberExceededError':
+            return 'Only 3 images can be uploaded';
+        default:
+            return '';
+    }
 }

@@ -3,7 +3,7 @@
 .imageForm {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: max-content 1em max-content max-content;
+    grid-template-rows: max-content max-content 1em max-content;
     width: 95%;
     grid-gap: 1em 0;
     margin: 4em auto 2em;
@@ -20,20 +20,20 @@
         border-top: 1px solid variables.$dropzone-border;
     }
 }
-.imageErrorMsg {
-    grid-column: 1 / 2;
-    grid-row: 2 / 3;
-    font-size: 0.85rem;
-    width: max-content;
-    justify-self: center;
-}
 .imageInputLabel {
     // Select from files button
     grid-column: 1 / 2;
-    grid-row: 3 / 4;
+    grid-row: 2 / 3;
     display: block;
     padding: 0.5em 0;
     width: 7.65em;
+    justify-self: center;
+}
+.imageErrorMsg {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+    font-size: 0.85rem;
+    width: max-content;
     justify-self: center;
 }
 .submitButton {
