@@ -5,6 +5,7 @@ import { checkFileSize } from '@/utilities/file_utils';
 import { ErrorObject } from '@/types/interfaces';
 import DropZone from '../drop_zone/page';
 import { FormContext } from '../image_form/page';
+import ErrorMessage from '../error_message/page';
 
 export default function FileInput() {
     const [errorObj, setErrorObj] = useState<ErrorObject>({});
@@ -51,7 +52,7 @@ export default function FileInput() {
                 onKeyDown={handleInputKeyDown}
             >Select from files</label>
             <ErrorMessage
-                errorFor={errorObj.formatError || errorObj.numberExceededError || errorObj.sizeError}
+                errorObject={errorObj}
                 className={gridStyles.imageErrorMsg}
             />
             <input
@@ -67,28 +68,4 @@ export default function FileInput() {
             />
         </>
     )
-}
-
-interface Propss {
-    errorFor: string | undefined;
-    className: string;
-}
-export function ErrorMessage({errorFor, className}: Propss) {
-    const errorMsg = calcErrorMsg(errorFor || '');
-    return (
-        <div className={className}>{ errorMsg }</div>
-    )
-}
-
-function calcErrorMsg(errorFor: string) {
-    switch(errorFor) {
-        case 'formatError':
-            return 'File must be an image';
-        case 'sizeError':
-            return 'File must be less than 4MB';
-        case 'numberExceededError':
-            return 'Only 3 images can be uploaded';
-        default:
-            return '';
-    }
 }
