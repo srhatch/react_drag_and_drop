@@ -1,53 +1,35 @@
 'use client';
-import gridStyles from '../../page.module.scss'; // Grid item rulesets are in the main file for better organization
-import fileInputStyles from './FileInput.module.scss';
-import { useState, useRef } from 'react';
-import { checkFileSize, checkIfImage } from '@/utilities/file_utils';
-import { ErrorObject, ImageInputProps } from '@/types/interfaces';
+import gridStyles from '../image_form/ImageForm.module.scss'; // Grid item rulesets are in the main file for better organization
+import { useState, useRef, useContext } from 'react';
+import { checkFileSize } from '@/utilities/file_utils';
+import { ErrorObject } from '@/types/interfaces';
+import DropZone from '../drop_zone/page';
+import { FormContext } from '../image_form/page';
 
-export default function FileInput({ imageArray, processAddImages, removeImage }: ImageInputProps) {
-    const [hoverClass, setHoverClass] = useState(false);
+export default function FileInput() {
     const [errorObj, setErrorObj] = useState<ErrorObject>({});
     const imageInputRef = useRef<HTMLInputElement>(null);
+    const context = useContext(FormContext);
 
     function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-        const imageArrayLength = imageArray ? imageArray.length : 0;
-        if (e.target.files) {
-            if (e.target.files.length + imageArrayLength > 3) {
-                // Maximum of 3 images can be uploaded so check the number of images already loaded plus the number being uploaded
+        const imageArrayLength = context?.imageArray.length || 0;
+        const numberOfImages = context?.numberOfImages || 0;
+        const inputFiles = e.target.files;
+        if (inputFiles) {
+            if (inputFiles.length + imageArrayLength > numberOfImages) {
+                // Check the number of images already loaded plus the number being uploaded 
                 setErrorObj(v => ({...v, numberExceededError: true}));
             } else {
-                const inputFileArray: File[] = Array.from(e.target.files);
+                const inputFileArray: File[] = Array.from(inputFiles);
                 const sizeValid = checkFileSize(inputFileArray);
                 // Built in file picker can filter out non-image files by default
-                if (sizeValid) {
-                    processAddImages(inputFileArray); // Adds to (parent) form component state
-                    setErrorObj({});
-                } else if (!sizeValid) {
+                if (!sizeValid) {
                     setErrorObj((v) => {return {...v, sizeError: true}});
+                    return;
                 }
-            }
-        }
-    }
-
-    function handleDrop(e: React.DragEvent<HTMLDivElement>) {
-        e.preventDefault();
-        const imageArrayLength = imageArray ? imageArray.length : 0;
-        const transferFile: File[] = Array.from(e.dataTransfer.files);
-        if (transferFile.length + imageArrayLength > 3) {
-            setErrorObj(v => ({...v, numberExceededError: true}));
-        } else {
-            const formatValid = checkIfImage(transferFile); // input's accept attribute won't work for drop zone
-            const sizeValid = checkFileSize(transferFile);
-            if (formatValid && sizeValid) {
-                processAddImages(transferFile);
+                context?.addImage(inputFileArray, context.slotsArray); // Adds to (parent) form component state
                 setErrorObj({});
-            } else if (!sizeValid) {
-                setErrorObj((v) => {return {...v, sizeError: true}});
-            } else if (!formatValid) {
-                setErrorObj((v) => {return {...v, formatError: true}});                
             }
-            setHoverClass(false);
         }
     }
 
@@ -61,35 +43,7 @@ export default function FileInput({ imageArray, processAddImages, removeImage }:
 
     return (
         <>
-            <div
-                data-testid='dropZone'
-                className={hoverClass ? [ gridStyles.imageDropZone, fileInputStyles.imageDropZone_hover].join(' ') : gridStyles.imageDropZone}
-                onDrop={handleDrop}
-                onDragOver={(e) => e.preventDefault()}
-                onDragEnter={() => {setHoverClass(true)}}
-                onDragLeave={() => {setHoverClass(false)}}
-            >
-                {
-                    imageArray?.map(file => {
-                        return (
-                            <div className={fileInputStyles.filePreviewContainer} key={file.name}>
-                                <div className={fileInputStyles.filePreview}>{file.name}</div>
-                                <button
-                                    className={fileInputStyles.removeFileButton}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        removeImage(file);
-                                    }}
-                                >&#10005;</button>
-                            </div>
-                        )
-                    })
-                }
-                {
-                    (!imageArray || imageArray?.length === 0) &&
-                    <div className={fileInputStyles.imageDragPrompt}>Drag up to 3 photos here</div>
-                }
-            </div>
+            <DropZone setErrorObj={setErrorObj} />
             {errorObj.formatError && <div className={gridStyles.imageErrorMsg}>File must be an image</div>}
             {errorObj.sizeError && <div className={gridStyles.imageErrorMsg}>File must be less than 4MB</div>}
             {errorObj.numberExceededError && <div className={gridStyles.imageErrorMsg}>Only 3 images can be uploaded</div>}
@@ -104,7 +58,6 @@ export default function FileInput({ imageArray, processAddImages, removeImage }:
                 hidden={true}
                 ref={imageInputRef}
                 id='imageInputId'
-                className={fileInputStyles.imageInput}
                 name='images'
                 accept='image/*, .jpeg, .jpg, .png'
                 multiple={true}

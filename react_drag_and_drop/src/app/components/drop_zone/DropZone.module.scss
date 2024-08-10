@@ -1,0 +1,41 @@
+@use '../../variables';
+
+.imageDropZone {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 20em);
+    grid-template-rows: 20em;
+    grid-gap: 1em;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    margin: 1em auto;
+    background-color: variables.$background-blue;
+}
+.imageDropZone_hover {
+    // Activeated when dragging an image over the drop zone
+    box-shadow: 0.2px 0.2px 5px 0.1px variables.$hover-border,
+        -0.2px -0.2px 5px 0.1px variables.$hover-border;
+    border: 1px solid transparent;
+}
+.emptySlot {
+    height: 6em;
+    width: 14em;
+    border: 1px solid gray;
+}
+.listingPic {
+    max-height: 18em;
+    max-width: 18em;
+}
+.removeFileButton {
+    font-size: 1rem;
+    padding: 0.25em;
+    color: black;
+    border: 1px solid transparent;
+    border-radius: 0.25em;
+    background-color: white;
+    &:hover {
+        cursor: pointer;
+        border: 1px solid variables.$hover-border;
+    }
+}

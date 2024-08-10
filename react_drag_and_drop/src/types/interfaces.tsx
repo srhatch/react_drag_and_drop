@@ -1,3 +1,29 @@
+// Component prop interfaces
+export interface ImageFormProps {
+    numberOfImages: number;
+}
+
+export interface DropZoneProps {
+    // For ImageDisplay component
+    setErrorObj: React.Dispatch<React.SetStateAction<ErrorObject>>;
+}
+
+// Context interfaces
+export interface FormContextInterface {
+    addImage: (imageArray: File[], slotsNumber: number[]) => void;
+    removeImage: (deleteFile: UrlFile) => void;
+    imageArray: File[];
+    slotsArray: number[];
+    numberOfImages: number;
+}
+
+// State interfaces
+export interface FormValues {
+    // State object for main Form component
+    images: UrlFile[];
+}
+
+// Other object interfaces
 export interface ErrorObject {
     formatError?: boolean;
     numberExceededError?: boolean;
@@ -7,21 +33,5 @@ export interface ErrorObject {
 export interface UrlFile extends File {
     // Allows the objectUrl to be stored directly on the image File object
     browserUrl?: string;
-}
-
-export interface ImageInputProps {
-    // For ImageInput component
-    imageArray: UrlFile[] | undefined;
-    processAddImages: (imageArray: File[]) => void;
-    removeImage: (imageFile: UrlFile) => void;
-}
-
-export interface ImageDisplayProps {
-    // For ImageDisplay component
-    imageArray: UrlFile[];
-}
-
-export interface FormValues {
-    // State object for main Form component
-    images: UrlFile[];
+    dropZone?: number;
 }
