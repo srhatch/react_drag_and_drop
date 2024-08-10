@@ -8,9 +8,10 @@
     justify-items: center;
     justify-content: center;
     align-items: center;
-    width: 95%;
+    width: 75%;
     margin: 1em auto;
     background-color: variables.$background-blue;
+    border-radius: 0.5em;
 }
 .imageDropZone_hover {
     // Activeated when dragging an image over the drop zone
@@ -18,16 +19,30 @@
         -0.2px -0.2px 5px 0.1px variables.$hover-border;
     border: 1px solid transparent;
 }
+.imageContainer {
+    display: grid;
+    grid-template-columns: max-content;
+    grid-template-rows: 6fr 1fr;
+    height: 100%;
+}
 .emptySlot {
-    height: 6em;
+    grid-row: 1 / 2;
+    align-self: center;
+    height: 14em;
     width: 14em;
     border: 1px solid gray;
+    border-radius: 0.5em;
 }
 .listingPic {
-    max-height: 18em;
-    max-width: 18em;
+    grid-row: 1 / 2;
+    align-self: center;
+    max-height: 16em;
+    max-width: 16em;
 }
 .removeFileButton {
+    grid-row: 2 / 3;
+    height: max-content;
+    align-self: center;
     font-size: 1rem;
     padding: 0.25em;
     color: black;
