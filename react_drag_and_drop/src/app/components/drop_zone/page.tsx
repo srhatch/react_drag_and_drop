@@ -1,5 +1,5 @@
 'use client';
-import { useContext, useState } from 'react';
+import { useContext, useState, useRef } from 'react';
 import styles from './DropZone.module.scss';
 import { checkFileSize, checkIfImage } from '@/utilities/file_utils';
 import { DropZoneProps, UrlFile } from '@/types/interfaces';
@@ -8,6 +8,7 @@ import { FormContext } from '../image_form/page';
 export default function DropZone({ setErrorObj }: DropZoneProps) {
     const [hoverClass, setHoverClass] = useState(false);
     const context = useContext(FormContext);
+    const dragZoneRef = useRef(null);
 
     function handleDrop(e: React.DragEvent<HTMLDivElement>) {
         e.preventDefault();
@@ -34,11 +35,19 @@ export default function DropZone({ setErrorObj }: DropZoneProps) {
     return (
         <div
             data-testid='imageDisplay'
+            ref={dragZoneRef}
             className={hoverClass ? [ styles.imageDropZone, styles.imageDropZone_hover].join(' ') : styles.imageDropZone}
             onDrop={(e) => handleDrop(e)}
             onDragOver={(e) => e.preventDefault()}
             onDragEnter={() => {setHoverClass(true)}}
-            onDragLeave={() => {setHoverClass(false)}}
+            onDragLeave={(e) => {
+                if ((e.relatedTarget && dragZoneRef.current) && (dragZoneRef.current as HTMLDivElement).contains((e.relatedTarget as HTMLDivElement))) {
+                    return;
+                } else {
+                    setHoverClass(false)
+                }
+                }}
+            draggable={true}
         >
             {
                 context?.slotsArray.map(slot => {
