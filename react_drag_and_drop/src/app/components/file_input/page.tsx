@@ -19,7 +19,7 @@ export default function FileInput() {
         if (inputFiles) {
             if (inputFiles.length + imageArrayLength > numberOfImages) {
                 // Check the number of images already loaded plus the number being uploaded 
-                setErrorObj(v => ({...v, numberExceededError: 'numberExceededErrpr'}));
+                setErrorObj(v => ({...v, numberExceededError: 'numberExceededError'}));
             } else {
                 const inputFileArray: File[] = Array.from(inputFiles);
                 const sizeValid = checkFileSize(inputFileArray);
@@ -44,6 +44,7 @@ export default function FileInput() {
 
     return (
         <>
+            <h3 className={gridStyles.formTitle}>Drag up to {context?.numberOfImages} images</h3>
             <DropZone setErrorObj={setErrorObj} />
             <label
                 htmlFor='imageInputId'
