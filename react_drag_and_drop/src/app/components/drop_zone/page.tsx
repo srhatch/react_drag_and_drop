@@ -46,7 +46,7 @@ export default function DropZone({ setErrorObj }: DropZoneProps) {
 
     return (
         <div
-            data-testid='imageDisplay'
+            data-testid='dropZone'
             ref={dragZoneRef}
             className={hoverClass ? [ styles.imageDropZone, styles.imageDropZone_hover].join(' ') : styles.imageDropZone}
             onDrop={(e) => handleDrop(e)}
@@ -58,8 +58,7 @@ export default function DropZone({ setErrorObj }: DropZoneProps) {
                 } else {
                     setHoverClass(false)
                 }
-                }}
-            draggable={true}
+            }}
         >
             {
                 context?.slotsArray.map(slot => {
