@@ -26,7 +26,6 @@ export default function FileInput() {
                 // Built in file picker can filter out non-image files by default
                 if (!sizeValid) {
                     setErrorObj((v) => {return {...v, sizeError: 'sizeError'}});
-                    return;
                 }
                 context?.addImage(inputFileArray, context.slotsArray); // Adds to (parent) form component state
                 setErrorObj({});
