@@ -44,6 +44,14 @@ export default function DropZone({ setErrorObj }: DropZoneProps) {
         })
     }
 
+    function handleOnDragLeave(e: React.DragEvent) {
+        if ((e.relatedTarget && dragZoneRef.current) && (dragZoneRef.current as HTMLDivElement).contains((e.relatedTarget as HTMLDivElement))) {
+            return;
+        } else {
+            setHoverClass(false)
+        }
+    }
+
     return (
         <div
             data-testid='dropZone'
@@ -52,13 +60,7 @@ export default function DropZone({ setErrorObj }: DropZoneProps) {
             onDrop={(e) => handleDrop(e)}
             onDragOver={(e) => e.preventDefault()}
             onDragEnter={() => {setHoverClass(true)}}
-            onDragLeave={(e) => {
-                if ((e.relatedTarget && dragZoneRef.current) && (dragZoneRef.current as HTMLDivElement).contains((e.relatedTarget as HTMLDivElement))) {
-                    return;
-                } else {
-                    setHoverClass(false)
-                }
-            }}
+            onDragLeave={handleOnDragLeave}
         >
             {
                 context?.slotsArray.map(slot => {
