@@ -75,6 +75,7 @@ export default function DropZone({ setErrorObj }: DropZoneProps) {
                                         className={styles.listingPic}
                                         src={objectUrl}
                                         onLoad={(e) => URL.revokeObjectURL(objectUrl || '')}
+                                        alt='User submitted image'
                                     />
                                     <button
                                         type='button'
