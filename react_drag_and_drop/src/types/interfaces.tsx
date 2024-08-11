@@ -38,5 +38,5 @@ export interface ErrorObject {
 export interface UrlFile extends File {
     // Allows the objectUrl to be stored directly on the image File object
     browserUrl?: string;
-    dropZone?: number;
+    slot?: number;
 }

@@ -13,19 +13,20 @@ export default function DropZone({ setErrorObj }: DropZoneProps) {
     function handleDrop(e: React.DragEvent<HTMLDivElement>) {
         e.preventDefault();
         const imageArrayLength = context?.imageArray.length || 0;
-        const numberOfImages = context?.numberOfImages || 0;
-        const transferFile: File[] = Array.from(e.dataTransfer.files);
-        if (transferFile.length + imageArrayLength > numberOfImages) {
+        const numberImagesAllowed = context?.numberOfImages || 0; // Total number allowed
+        const transferFiles: File[] = Array.from(e.dataTransfer.files);
+        if (transferFiles.length + imageArrayLength > numberImagesAllowed) {
+            // If uploaded exceeds total number allowed
             setErrorObj(v => ({...v, numberExceededError: 'numberExceededError'}));
         } else {
-            const formatValid = checkIfImage(transferFile); // input's accept attribute won't work for drop zone
-            const sizeValid = checkFileSize(transferFile);
+            const formatValid = checkIfImage(transferFiles); // input's accept attribute won't work for drop zone
+            const sizeValid = checkFileSize(transferFiles);
             if (!sizeValid) {
                 setErrorObj(v => {return {...v, sizeError: 'sizeError'}});
             } else if (!formatValid) {
                 setErrorObj(v => {return {...v, formatError: 'formatError'}});
             } else {
-                context?.addImage(transferFile, context.slotsArray);
+                context?.addImage(transferFiles, context.slotsArray);
                 setErrorObj({});
             }
         }
@@ -38,14 +39,16 @@ export default function DropZone({ setErrorObj }: DropZoneProps) {
         setErrorObj: React.Dispatch<React.SetStateAction<ErrorObject>>
     ): void {
         removeImage(image);
-        setErrorObj((previousErrorObj) => {
-            previousErrorObj.numberExceededError = '';
-            return {...previousErrorObj};
+        setErrorObj(v => {
+            v.numberExceededError = '';
+            return {...v};
         })
     }
 
     function handleOnDragLeave(e: React.DragEvent) {
+        // Removes hover border style
         if ((e.relatedTarget && dragZoneRef.current) && (dragZoneRef.current as HTMLDivElement).contains((e.relatedTarget as HTMLDivElement))) {
+            // Prevents hoverClass from changing if item is dragged over child elements of dropZone
             return;
         } else {
             setHoverClass(false)
@@ -97,12 +100,14 @@ export default function DropZone({ setErrorObj }: DropZoneProps) {
 }
 
 // Helper functions
-function findImageIndex(imageArray: UrlFile[], dropZone: number) {
-    const index = imageArray?.findIndex(file => file.dropZone === dropZone);
+function findImageIndex(imageArray: UrlFile[], slot: number) {
+    // Retrieves an image from uploaded images based on slot
+    const index = imageArray?.findIndex(file => file.slot === slot);
     return index;
 }
 
 function calcSrc(imageArray: UrlFile[], dropZone: number) {
+    // Used to keep images in the slot they were uploaded into
     const index = findImageIndex(imageArray, dropZone);
     if (index !== -1) {
         return imageArray[index].browserUrl;
