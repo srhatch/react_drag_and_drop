@@ -1,7 +1,7 @@
 import { ErrorMessageProps } from "@/types/interfaces";
 
 export default function ErrorMessage({errorObject, className}: ErrorMessageProps) {
-    const errorFor = Object.values(errorObject).find(value => !!value); // Return error property value
+    const errorFor = Object.values(errorObject).findLast(value => !!value); // Using findLast will get the most recent error message
     const errorMsg = calcErrorMsg(errorFor || '');
     return (
         <div className={className}>{ errorMsg }</div>
