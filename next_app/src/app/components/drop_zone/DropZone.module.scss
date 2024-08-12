@@ -2,14 +2,15 @@
 
 .imageDropZone {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 20em);
-    grid-template-rows: 20em;
+    grid-template-columns: repeat(auto-fit, 16em);
+    grid-template-rows: auto;
     grid-gap: 1em;
     justify-items: center;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     width: 75%;
     margin: 1em auto;
+    padding: 2em;
     background-color: variables.$background-blue;
     border-radius: 0.5em;
 }
@@ -52,5 +53,11 @@
     &:hover {
         cursor: pointer;
         border: 1px solid variables.$hover-border;
+    }
+}
+@media(max-width: 800px) {
+    .imageDropZone {
+        grid-gap: 2em;
+        padding: 2em 0;
     }
 }
