@@ -8,8 +8,9 @@ Certain validation functions are called on loaded images to check for file size 
 I named the component &lt;ImageForm&gt; for this demo, but more realistically the form would be using other input components and then submitting those values in the onSubmit handler.
 <br><br>
 To try the demo:<br>
-Change to react_drag_and_drop directory<br>
-Run command: <code>npm install</code><br>
+Install Node.js<br>
+Clone repository<br>
 Change to next_app directory<br>
+Run command: <code>npm install</code><br>
 Run command: <code>npm run dev</code><br>
 Navigate to http://localhost:3000 in a browser
