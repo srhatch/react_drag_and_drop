@@ -36,7 +36,7 @@ export default function ImageForm({ numberOfImages }: ImageFormProps ) {
       return file;
     });
     setFormValues((formValues: FormValues) => (
-      {...formValues, images: modifiedImageArray}
+      {...formValues, images: [...formValues.images, ...modifiedImageArray]}
     ))
   }
 
